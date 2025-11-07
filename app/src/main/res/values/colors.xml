@@ -1,0 +1,10 @@
+<resources>
+    <color name="colorPrimary">#A633BA</color> <!-- Azul educativo -->
+    <color name="colorPrimaryDark">#EBF491</color>
+    <color name="colorAccent">#67AF6A</color> <!-- Amarillo resalte -->
+    <color name="colorBackground">#FAFAFA</color>
+    <color name="colorTextPrimary">#212121</color>
+    <color name="colorTextSecondary">#757575</color>
+    <color name="white">#FFFFFF</color>
+</resources>
+

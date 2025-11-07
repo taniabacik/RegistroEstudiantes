@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Registro de Estudiantes</string>
+    <string name="bienvenida">Bienvenido al Registro de Estudiantes</string>
+    <string name="btn_ingresar">Ingresar</string>
+    <string name="titulo_registro">Registro de Estudiante</string>
+    <string name="btn_guardar">Guardar</string>
+    <string name="titulo_lista">Lista de Estudiantes Registrados</string>
+    <string name="btn_volver">Volver</string>
+</resources>
