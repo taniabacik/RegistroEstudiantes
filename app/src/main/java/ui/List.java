@@ -4,13 +4,15 @@ import com.example.registroestudiantes.R;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 import adapter.EstudiantesAdapter;
 import modelo.Estudiantes;
-import java.util.*;
+import utils.PrefsHelper;
 
 public class List extends AppCompatActivity {
 
@@ -26,7 +28,7 @@ public class List extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         btnVolver = findViewById(R.id.btnVolver);
 
-        cargarDatos();
+        cargarDatosCorrectamente();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new EstudiantesAdapter(listaEstudiantes));
@@ -34,12 +36,8 @@ public class List extends AppCompatActivity {
         btnVolver.setOnClickListener(v -> finish());
     }
 
-    private void cargarDatos() {
-        SharedPreferences prefs = getSharedPreferences("estudiantes", MODE_PRIVATE);
-        String data = prefs.getString("ultimoEstudiante", null);
-        if (data != null) {
-            String[] partes = data.split(",");
-            listaEstudiantes.add(new Estudiantes(partes[0], partes[1], partes[2], partes[3], partes[4], Integer.parseInt(partes[5])));
-        }
+    private void cargarDatosCorrectamente() {
+        PrefsHelper prefsHelper = new PrefsHelper(this);
+        listaEstudiantes = prefsHelper.getStudents();
     }
 }

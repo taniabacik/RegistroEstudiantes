@@ -3,11 +3,12 @@ package ui;
 import com.example.registroestudiantes.R;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
+
 import modelo.Estudiantes;
-import java.util.*;
+import utils.PrefsHelper;
+
 public class RegisterActivity extends AppCompatActivity {
 
     EditText etNombre, etApellido, etCorreo, etCodigo;
@@ -28,14 +29,29 @@ public class RegisterActivity extends AppCompatActivity {
         btnGuardar = findViewById(R.id.btnGuardar);
 
         // Opciones de carreras
-        String[] carreras = {"Desarrollador de Software", "Administrador de Empresas", "Técnico Ambientalista", "Economista Social", "Administrativo Municipal"};
-        spCarrera.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, carreras));
+        String[] carreras = {
+                "Desarrollador de Software",
+                "Administrador de Empresas",
+                "Técnico Ambientalista",
+                "Economista Social",
+                "Administrativo Municipal"
+        };
+        spCarrera.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, carreras));
 
         // Opciones de avatares
-        String[] avatares = {"Desarrollador", "Administrador", "Ambientalista", "Economista", "Municipal"};
-        spAvatar.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, avatares));
+        String[] avatares = {
+                "Desarrollador",
+                "Administrador",
+                "Ambientalista",
+                "Economista",
+                "Municipal"
+        };
+        spAvatar.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, avatares));
 
         btnGuardar.setOnClickListener(v -> {
+
             String nombre = etNombre.getText().toString();
             String apellido = etApellido.getText().toString();
             String correo = etCorreo.getText().toString();
@@ -43,9 +59,13 @@ public class RegisterActivity extends AppCompatActivity {
             String carrera = spCarrera.getSelectedItem().toString();
             int avatarRes = obtenerAvatar(spAvatar.getSelectedItem().toString());
 
-            Estudiantes estudiante = new Estudiantes(nombre, apellido, correo, codigo, carrera, avatarRes);
+            Estudiantes estudiante =
+                    new Estudiantes(nombre, apellido, correo, codigo, carrera, avatarRes);
 
-            guardarEstudiante(estudiante);
+
+            PrefsHelper prefsHelper = new PrefsHelper(this);
+            prefsHelper.addStudent(estudiante);
+
 
             Intent intent = new Intent(RegisterActivity.this, List.class);
             startActivity(intent);
@@ -61,13 +81,4 @@ public class RegisterActivity extends AppCompatActivity {
             default: return R.drawable.avatar_desarrollador;
         }
     }
-
-    private void guardarEstudiante(Estudiantes e) {
-        SharedPreferences prefs = getSharedPreferences("estudiantes", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        String registro = e.getNombre() + "," + e.getApellido() + "," + e.getCorreo() + "," + e.getCodigo() + "," + e.getCarrera() + "," + e.getAvatarResId();
-        editor.putString("ultimoEstudiante", registro);
-        editor.apply();
-    }
 }
-
